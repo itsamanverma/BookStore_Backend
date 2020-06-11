@@ -24,8 +24,12 @@ class RegisterAuthRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => '',
+            'email' => 'required|string|email|max:255|unique:users|regex:/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,3})$/',
+            'firstname' => 'required|string|min:6|max:15',
+            'lastname'=>'required|string|min:6|max:15',
             'password' => 'required|string|min:8|regex:/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{6,}$/',
+            'dob' => 'date_format:Y-M-D|before:today',
+            'region' => 'required|string|max:15',
         ];
     }
 }
