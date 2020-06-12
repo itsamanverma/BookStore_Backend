@@ -70,17 +70,6 @@ class UserController extends Controller
     }
 
     /**
-     * function to get details of the user 
-     * 
-     * @return response
-     */
-    public function userDetails()
-    {
-        $user = User::with('')->find(Auth::user()->id);
-        return response()->json([$user], 200);
-    }
-
-    /**
      * function to logout user 
      * 
      * @return Illuminate\Http\Response
@@ -90,5 +79,42 @@ class UserController extends Controller
         Auth::user()->token()->revoke();
         
         return response()->json(['message'=>'Logout SuccesFull'],200);
+    }
+
+    /**
+     * function to help forgot password of the user 
+     * 
+     * @return response
+     */
+    public function forgotPassword()
+    {
+        $validator = Validator::make($request->all(), [
+            'email' => 'bail|required|email|unique:users',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['error' => $validator->errors()], 200);
+        }
+    }
+
+    /**
+     * function to verify email of the user and add the time stamp to user verified field in user table
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function verifyEmail()
+    {
+        $id = request('id');
+        $token = request('token');
+        $user = User::where("verifytoken", $token)->first();
+    //    / $user = User::where("email", $email)->first();
+        if (!$user) {
+            return response()->json(['message' => "Not a Registered Email"], 200);
+        } else if ($user->email_verified_at === null) {
+            $user->email_verified_at = now();
+            $user->save();
+            return response()->json(['message' => "Email Successfully Verified"], 201);
+        } else {
+            return response()->json(['message' => "Email Already Verified"], 202);
+        }
     }
 }
