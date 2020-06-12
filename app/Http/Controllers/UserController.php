@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class UserController extends Controller
 {
@@ -25,7 +28,7 @@ class UserController extends Controller
             'lastname' => 'required|max:20',
             'email' => 'bail|required|email|unique:users',
             'password' => 'required|min:8|max:15',
-            'dob' => 'required|date_format:Y-M-D|before:today',
+            'dob' => 'date_format:Y-M-D|before:today|nullable',
             'region' => 'required|string',
         ]);
 
@@ -35,7 +38,7 @@ class UserController extends Controller
 
         $input["created_at"] = now();
         $input['password'] = bcrypt($input['password']);
-        $input['verifytoken'] = str_random(60);
+        $input['verifytoken'] =Str::random(40); 
         $user = User::create($input);
         $success['token'] = $user->createToken('fundoo')->accessToken;
         $success['firstname'] = $user->firstname;
