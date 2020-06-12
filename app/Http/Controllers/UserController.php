@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -43,9 +42,53 @@ class UserController extends Controller
         $date = str_replace("-", "", $request->dob);
         $input['dob'] = Carbon::parse($date)->format('Y-m-d');
         $user = User::create($input);
-        $success['token'] = $user->createToken('fundoo')->accessToken;
+        $success['token'] = $user->createToken('bookstore')->accessToken;
         $success['firstname'] = $user->firstname;
-        // event(new UserRegistered($user, $input['verifytoken']));
+        event(new UserRegistered($user, $input['verifytoken']));
         return response()->json(['message' => 'registration succesfull'], 201);
      }
+
+     /**
+     * function to login user 
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function login()
+    {
+        //getting user email
+        $email = request('email');
+        if (Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
+            $user = Auth::user();
+            if ($user->email_verified_at === null) {
+                return response()->json(['message' => 'Email Not Verified'], 211);
+            }
+            $token = $user->createToken('bookstore')->accessToken;
+            return response()->json(['token' => $token, 'userdetails' => Auth::user()], 200);
+        } else {
+            return response()->json(['error' => 'Unauthorised'], 204);
+        }
+    }
+
+    /**
+     * function to get details of the user 
+     * 
+     * @return response
+     */
+    public function userDetails()
+    {
+        $user = User::with('')->find(Auth::user()->id);
+        return response()->json([$user], 200);
+    }
+
+    /**
+     * function to logout user 
+     * 
+     * @return Illuminate\Http\Response
+     */
+    public function logout()
+    {
+        Auth::user()->token()->revoke();
+        
+        return response()->json(['message'=>'Logout SuccesFull'],200);
+    }
 }
