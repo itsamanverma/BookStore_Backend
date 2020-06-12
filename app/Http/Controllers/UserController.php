@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -28,7 +29,7 @@ class UserController extends Controller
             'lastname' => 'required|max:20',
             'email' => 'bail|required|email|unique:users',
             'password' => 'required|min:8|max:15',
-            'dob' => 'date_format:Y-M-D|before:today|nullable',
+            'dob' => 'date_format:Y-m-d|required|before:today|nullable',
             'region' => 'required|string',
         ]);
 
@@ -38,7 +39,9 @@ class UserController extends Controller
 
         $input["created_at"] = now();
         $input['password'] = bcrypt($input['password']);
-        $input['verifytoken'] =Str::random(40); 
+        $input['verifytoken'] =Str::random(60);
+        $date = str_replace("-", "", $request->dob);
+        $input['dob'] = Carbon::parse($date)->format('Y-m-d');
         $user = User::create($input);
         $success['token'] = $user->createToken('fundoo')->accessToken;
         $success['firstname'] = $user->firstname;
