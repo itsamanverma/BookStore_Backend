@@ -18,3 +18,8 @@ use Illuminate\Http\Request;
 // });
 
 Route::post('register','UserController@register');
+Route::post('login', 'UserController@login')->name('login');
+Route::get('verifyemail/{token}','UserController@verifyEmail');
+Route::post('forgotpassword','PasswordResetController@create');
+Route::post('forgotpassword/find','PasswordResetController@find');
+Route::post('forgotpassword/reset','PasswordResetController@reset');

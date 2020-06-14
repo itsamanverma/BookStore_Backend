@@ -26,7 +26,8 @@ class UserRegistered
     /**
      * Create a new event instance.
      *
-     * @return void
+     *@param $user,$token
+     *@return value
      */
     public function __construct($user, $token)
     {

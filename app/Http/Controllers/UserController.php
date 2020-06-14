@@ -45,8 +45,8 @@ class UserController extends Controller
         $user = User::create($input);
         $success['token'] = $user->createToken('bookstore')->accessToken;
         $success['firstname'] = $user->firstname;
-        event(new UserRegistered($user, $input['verifytoken']));
-        return response()->json(['message' => 'registration succesfull'], 201);
+        // event(new UserRegistered($user, $input['verifytoken']));
+        return response()->json(['message' => 'registration succesfull','success' => $success], 201);
      }
 
      /**

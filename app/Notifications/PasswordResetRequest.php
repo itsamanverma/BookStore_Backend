@@ -7,22 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class VerificationMail extends Notification
+class PasswordResetRequest extends Notification
 {
     use Queueable;
 
-    public $email;
-    public $token;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(string $email, string $token)
+    public function __construct()
     {
         //
-        $this->email = $email;
-        $this->token = $token;
     }
 
     /**
@@ -44,13 +40,12 @@ class VerificationMail extends Notification
      */
     public function toMail($notifiable)
     {
-        $url = "/api/verifyemail/$this->token"; 
-
+        $url = url("/api/passwordReset/$this->token");
         return (new MailMessage)
-                    ->line('Welcome to BookStore, I am Aman Verma')
-                    ->line('Please Verify your email to get started with us')
-                    ->action('Verification Email', url($url))
-                    ->line('Thank you for using our application!');
+                    ->line('you are receiving this email because we want the reset the password of particular email id')
+                    ->action('Reset Password', url($url))
+                    ->line('Link is valid up to 12 hours')
+                    ->line("if you dont want to rese the password,no further action is required");
     }
 
     /**
