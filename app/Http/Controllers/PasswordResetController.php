@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Validator;
 use App\User;
 use App\PasswordReset;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class PasswordResetController extends Controller
 {
@@ -31,7 +32,7 @@ class PasswordResetController extends Controller
             ['email' => $user->email],
             [
                 'email' => $user->email,
-                'token' => str_random(60)
+                'token' => Str::random(60)
             ]
         );
         if ($user && $passwordReset) {

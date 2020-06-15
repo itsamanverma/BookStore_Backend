@@ -107,7 +107,7 @@ class UserController extends Controller
         $id = request('id');
         $token = request('token');
         $user = User::where("verifytoken", $token)->first();
-    //    / $user = User::where("email", $email)->first();
+        // $user = User::where("email", $email)->first();
         if (!$user) {
             return response()->json(['message' => "Not a Registered Email"], 200);
         } else if ($user->email_verified_at === null) {
