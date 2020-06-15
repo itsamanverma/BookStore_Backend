@@ -43,6 +43,6 @@ class User extends Authenticatable
      * create relationship between user & books
      */
     public function books(){
-        return $this->hasMany('App\book', 'user_id');
+        return $this->hasMany('App\Books', 'user_id');
     }
 }
