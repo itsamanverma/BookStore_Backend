@@ -34,7 +34,7 @@ class CreateUsersTable extends Migration
             'lastname' => 'Admin',
             'password' => bcrypt('password'),
             'created_at' => \Carbon\Carbon::now()->toDateTimeString(),
-            'updated_at' => \Carbon\Carbon::now()->toDateTimeString()
+            'updated_at' => \Carbon\Carbon::now()->toDateTimeString(),
         ]);
     }
 
