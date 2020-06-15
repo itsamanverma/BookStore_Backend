@@ -24,7 +24,7 @@ class Books extends Model
      * @param $data
      * @return Illuminate\Http\Response Books
      */
-        public function CreateBooks($data) {
+        public function createBooks($data) {
             Cache::forget('books' . Auth::user()->id);
             $book = Books::create($data);
             return $book;
