@@ -14,7 +14,13 @@ class CreateOrdersTable extends Migration
     public function up()
     {
         Schema::create('orders', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->integer('customer_id')->unsigned();
+            $table->foreign('customer_id')->references('id')->on('customers')->onDetele('cascade');
+            $table->date('orderDate')->nullable();
+            $table->integer('Subtotal')->unsigned();
+            $table->text('Shipping');
+            $table->integer('total')->unsigned();
             $table->timestamps();
         });
     }
