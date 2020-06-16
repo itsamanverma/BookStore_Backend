@@ -20,6 +20,7 @@ class CreateBooksTable extends Migration
             $table->integer('price')->unsigned();
             $table->boolean('Availability')->defualt('true');
             $table->text('Description');
+            $table->integer('noOfBooks')->length(2)->unsigned();
             $table->integer('Ratings')->length(2)->unsigned();
             $table->integer('Reviews')->unsigned();
             $table->integer('author_id')->unsigned();

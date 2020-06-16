@@ -59,6 +59,7 @@ class BooksController extends Controller
                 'name' => $request->get('name'),
                 'image' => $request->get('image'),
                 'price' => $request->get('price'),
+                'noOfBooks' => $request->get('noOfBooks'),
                 'Availability' => $request->get('Availability'),
                 'Description' => $request->get('Description'),
                 'user_id' => $request->get('user_id'),
@@ -69,5 +70,29 @@ class BooksController extends Controller
         );
         Cache::forget('Books' . Auth::user()->id);
         return response()->json(['message' => Books::with('authors')->where('id', $request->get('id'))->get()], 200);
+    }
+
+    /**
+     * create the function for delete the book
+     * 
+     * @param Request $request 
+     * @return Illuminate\Http\Response 
+     */
+    public function deletebook(Request $request) {
+
+        $data = $request->all();
+        if (Books::destroy($request->get('id')) > 0) {
+            $books = Books::where('user_id', Auth::user()->id)->get();
+            foreach ($books as $book) {
+                if ($book->index > $data['index']) {
+                    $book->index -= 1;
+                    $book->save();
+                }
+            }
+            Cache::forget('books' . Auth::user()->id);
+            return response()->json(['message' => 'Book deleted'], 200);
+        } else {
+            return response()->json(['message' => 'note not found'], 204);
+        }
     }
 }
