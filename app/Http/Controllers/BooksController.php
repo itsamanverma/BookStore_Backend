@@ -92,7 +92,7 @@ class BooksController extends Controller
             Cache::forget('books' . Auth::user()->id);
             return response()->json(['message' => 'Book deleted'], 200);
         } else {
-            return response()->json(['message' => 'note not found'], 204);
+            return response()->json(['message' => 'Book not found'], 204);
         }
     }
 }

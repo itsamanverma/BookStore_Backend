@@ -28,6 +28,6 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/logout', 'UserController@logout');
     Route::get('/getlistbooks', 'BooksController@getListBooks');
     Route::post('/addbook', 'BooksController@create');
-    Route::post('/updatebook', 'BooksController@updateBooks');
-    Route::post('/deletebook', 'BooksController@deleteBook');
+    Route::post('/updatebook', 'BooksController@updatebook');
+    Route::post('/deletebook', 'BooksController@deletebook');
 });
