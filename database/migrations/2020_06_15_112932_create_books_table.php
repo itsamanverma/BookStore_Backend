@@ -23,10 +23,9 @@ class CreateBooksTable extends Migration
             $table->integer('noOfBooks')->length(2)->unsigned();
             $table->integer('Ratings')->length(2)->unsigned();
             $table->integer('Reviews')->unsigned();
-            $table->integer('author_id')->unsigned();
+            $table->string('author_name');
             $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('author_id')->references('id')->on('authors')->onDelete('cascade');
             $table->timestamps();
         });
     }

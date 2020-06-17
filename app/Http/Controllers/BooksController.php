@@ -21,7 +21,7 @@ class BooksController extends Controller
      * @param $Request $Request
      * @return Illuminate\Http\Response create Book
      */
-    public function create(Request $request) {
+    public function addBook(Request $request) {
         $data = $request->all();
         $data['user_id'] = Auth::user()->id;
         $book = Books::createBooks($data);
@@ -37,7 +37,7 @@ class BooksController extends Controller
 
         Cache::forget('books' . Auth::user()->id);
         $books = Cache::remember('books' . Auth::user()->id, (30), function () {
-            $bb = Books::with('authors')->where('user_id', Auth::user()->id)->get();
+            $bb = Books::where('user_id', Auth::user()->id)->get();
             return $bb;
         });
     }
@@ -52,7 +52,7 @@ class BooksController extends Controller
 
         $data = $request->all();
         $books = Cache::get('books' . Auth::user()->id);
-        $book = Books::with('authors')->where('id', $request->get('id'));
+        $book = Books::where('id', $request->get('id'));
         $book->update(
             [
                 'id' => $request->get('id'),
@@ -63,7 +63,7 @@ class BooksController extends Controller
                 'Availability' => $request->get('Availability'),
                 'Description' => $request->get('Description'),
                 'user_id' => $request->get('user_id'),
-                'author_id' => $request->get('author_id'),
+                'author_name' => $request->get('author_name'),
                 'Ratings' => $request->get('Ratings'),
                 'Reviews' => $request->get('Reviews'),
             ]

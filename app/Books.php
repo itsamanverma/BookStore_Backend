@@ -38,17 +38,10 @@ class Books extends Model
 
         Cache::forget('books' . Auth::user()->id);
         $books = Cache::remember('books' . Auth::user()->id, (30), function () {
-            $bb = Books::with('authors')->where('user_id', Auth::user()->id)->get();
+            $bb = Books::where('user_id', Auth::user()->id)->get();
             return $bb;
         });
         return $notes;
     }
 
-    /**
-     * create the relation between Books & Authors
-     * 
-     */
-     public function authors() {
-        return $this->hasmany('App\Authors', 'author_id');
-     }
 }
