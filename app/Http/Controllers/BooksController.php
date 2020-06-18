@@ -103,11 +103,15 @@ class BooksController extends Controller
      */
     public function searchbooks(Request $request)
     {   
-        $books = Books::where('id', $request->get('id'))->orderBy('id');
+        $books = Books::where('id', $request->get('id'));
         $filter = $books->filter(Function($value,$name){
-            return collect($filter->toArray())->$value('LIKE','%')
+            return collect($filter->groupBy('name')->toArray())->$value('LIKE','%')
             ->only(['id','name','image','price','noOfBooks','user_id','Availability','Description','author_name','Reviews','Ratings']);
             $filter->all();
         });
     }
+
+    /**
+     * create the
+     */
 }
