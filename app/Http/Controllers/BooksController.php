@@ -101,12 +101,12 @@ class BooksController extends Controller
      * @param Request $request
      * @return Illuminate\Http\Response
      */
-    public function searchbooks(Request $req)
+    public function searchbooks(Request $request)
     {   
-        $books = Books::where('id', $request->get('id'));
-        $filter = $books->filter(Function($value,$title){
+        $books = Books::where('id', $request->get('id'))->orderBy('id');
+        $filter = $books->filter(Function($value,$name){
             return collect($filter->toArray())->$value('LIKE','%')
-            ->only(['id','title','body','reminder','color','userid','ispinned','isarchived','istrash','index']);
+            ->only(['id','name','image','price','noOfBooks','user_id','Availability','Description','author_name','Reviews','Ratings']);
             $filter->all();
         });
     }
