@@ -31,4 +31,5 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('/addbook', 'BooksController@addBook');
     Route::post('/updatebook', 'BooksController@updatebook');
     Route::post('/deletebook', 'BooksController@deletebook');
+    Route::post('/searchbooks','BooksController@searchbooks');
 });

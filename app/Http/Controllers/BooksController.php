@@ -95,4 +95,19 @@ class BooksController extends Controller
             return response()->json(['message' => 'Book not found'], 204);
         }
     }
+
+    /**
+     * create the function for search the book based name,price,
+     * @param Request $request
+     * @return Illuminate\Http\Response
+     */
+    public function searchbooks(Request $req)
+    {   
+        $books = Books::where('id', $request->get('id'));
+        $filter = $books->filter(Function($value,$title){
+            return collect($filter->toArray())->$value('LIKE','%')
+            ->only(['id','title','body','reminder','color','userid','ispinned','isarchived','istrash','index']);
+            $filter->all();
+        });
+    }
 }
