@@ -25,6 +25,8 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->timestamps();
             $table->string('verifytoken')->nullable();
+            $table->string('provider')->nullable();
+            $table->string('providerprofile')->nullable();
         });
 
         // Create the initial admin user

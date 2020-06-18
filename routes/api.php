@@ -23,6 +23,7 @@ Route::post('verifyemail/{token}','UserController@verifyEmail');
 Route::post('forgotpassword','PasswordResetController@create');
 Route::post('forgotpassword/find','PasswordResetController@find');
 Route::post('forgotpassword/reset','PasswordResetController@reset');
+Route::post('sociallogin', 'UserController@socialLogin');
 
 Route::group(['middleware' => 'auth:api'], function () {
     Route::get('/logout', 'UserController@logout');

@@ -118,4 +118,32 @@ class UserController extends Controller
             return response()->json(['message' => "Email Already Verified"], 202);
         }
     }
+
+    /**
+        * create the function to login user by social service websites like google,facebook
+        *
+        * all things handled by frontend only authentication part handlen by backend
+        */
+
+        public function socialLogin(Request $request)
+        {
+            $input = $request->all();
+            /* $input['created_at'] = now(); */
+            $input['password'] = bycrypt(str_random(8));
+            $input['verifytoken'] = str_random(60);
+
+            $user = User::where([['email',$input['email']]])->first();
+
+            if(!$user) {
+                 $user = User::create($input);
+                 /* verify it first that email is is as it is of SocialLogin email*/
+                 $user->email_verified_at = now();
+            }
+            $user->provider = $input['provider'];
+            $user->providerprofile = $input['providerprofile'];
+            $user->save();
+            Auth::login($user,true);
+            $token = Auth::user()->createtoken('bookstore')->accessToken;
+            return response()->json(['token' => $token ,'userdetails' => Auth::user()],200);   
+        }
 }
