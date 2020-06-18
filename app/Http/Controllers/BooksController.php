@@ -103,8 +103,8 @@ class BooksController extends Controller
      */
     public function searchbooks(Request $request)
     {   
-        $books = Books::where('id', $request->get('id'));
-        $filter = $books->filter(Function($value,$name){
+        $books = Books::all()->pluck('name','author_name');
+        $filter = $books->filter(function($value,$key) use ($name, $author_name){
             return collect($filter->toArray())->$value('LIKE','%')
             ->only(['id','name','image','price','noOfBooks','user_id','Availability','Description','author_name','Reviews','Ratings']);
             $filter->all();
@@ -112,6 +112,15 @@ class BooksController extends Controller
     }
 
     /**
-     * create the
+     * create the function to sort the book base price
+     * 
+     * @param Request $request
+     * @return Illuminate\Http\Response
      */
+    public function sortbooks(Request $request) {
+        $books = Books::all()->pluck('price');
+        $sort  = $books->sortBy(function($value,$key) use($price) {
+            return collect();
+        });
+    }
 }
