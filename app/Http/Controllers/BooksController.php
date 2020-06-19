@@ -117,10 +117,16 @@ class BooksController extends Controller
      * @param Request $request
      * @return Illuminate\Http\Response
      */
+    
     public function sortbooks(Request $request) {
+        $flag;
         $books = Books::all()->pluck('price');
-        $sort  = $books->sortBy(function($value,$key) use($price) {
-            return collect();
-        });
+        if($flag == 1){
+            $sorted  = $books->sortBy($price);
+            return $sorted->toArray()->values->all();
+        }elseif($flag == 0){
+            $sorted = $books->sortByDesc($price);
+            return $sorted->toArray()->values->all();
+        }
     }
 }
