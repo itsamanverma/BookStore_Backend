@@ -18,8 +18,8 @@ class CreateBooksTable extends Migration
             $table->string('name')->length(50)->unique();
             $table->binary('image')->nullable();
             $table->integer('price')->unsigned();
-            $table->boolean('Availability')->defualt('true');
-            $table->text('Description');
+            $table->boolean('isAvailabil')->defualt('true');
+            $table->text('Title');
             $table->integer('noOfBooks')->length(2)->unsigned();
             $table->integer('Ratings')->length(2)->unsigned();
             $table->integer('Reviews')->unsigned();

@@ -60,10 +60,10 @@ class BooksController extends Controller
                 'image' => $request->get('image'),
                 'price' => $request->get('price'),
                 'noOfBooks' => $request->get('noOfBooks'),
-                'Availability' => $request->get('Availability'),
-                'Description' => $request->get('Description'),
+                'Availability' => $request->get('isAvailabil'),
+                'Description' => $request->get('Title'),
                 'user_id' => $request->get('user_id'),
-                'author_name' => $request->get('author_name'),
+                'author_name' => $request->get('author'),
                 'Ratings' => $request->get('Ratings'),
                 'Reviews' => $request->get('Reviews'),
             ]
@@ -103,10 +103,10 @@ class BooksController extends Controller
      */
     public function searchbooks(Request $request)
     {   
-        $books = Books::all()->pluck('name','author_name');
+        $books = Books::all()->pluck('name','author');
         $filter = $books->filter(function($value,$key) use ($name, $author_name){
             return collect($filter->toArray())->$value('LIKE','%')
-            ->only(['id','name','image','price','noOfBooks','user_id','Availability','Description','author_name','Reviews','Ratings']);
+            ->only(['id','name','image','price','noOfBooks','user_id','isAvailabil','Title','author','Reviews','Ratings']);
             $filter->all();
         });
     }
